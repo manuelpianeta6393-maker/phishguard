@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block titulo %}Resultado{% endblock %}
+{% block contenido %}
+<section class="tarjeta resultado {{ r.clase }}">
+  <div class="cabecera-resultado">
+    <div class="medidor" style="--valor: {{ r.puntaje }}">
+      <div class="medidor-centro"><strong>{{ r.puntaje }}</strong><span>/100</span></div>
+    </div>
+    <div>
+      <p class="etiqueta">Nivel de riesgo</p>
+      <h1 class="nivel">{{ r.nivel }}</h1>
+      <p class="recomendacion">{{ r.recomendacion }}</p>
+    </div>
+  </div>
+  <dl class="datos">
+    <div><dt>URL analizada</dt><dd class="mono">{{ r.url }}</dd></div>
+    <div><dt>Host</dt><dd class="mono">{{ r.dominio }}</dd></div>
+    <div><dt>Dominio registrado</dt><dd class="mono">{{ r.dominio_registrado }}</dd></div>
+  </dl>
+</section>
+
+<section class="tarjeta">
+  <h2>Señales detectadas ({{ r.hallazgos | length }})</h2>
+  {% if r.hallazgos %}
+  <ul class="hallazgos">
+    {% for h in r.hallazgos | sort(attribute='puntos', reverse=true) %}
+    <li><span class="puntos">+{{ h.puntos }}</span><div><strong>{{ h.criterio }}</strong><p>{{ h.descripcion }}</p></div></li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p class="vacio">✓ No se encontraron señales de phishing en esta URL.</p>
+  {% endif %}
+  <a href="/" class="boton-secundario">← Analizar otra URL</a>
+</section>
+{% endblock %}

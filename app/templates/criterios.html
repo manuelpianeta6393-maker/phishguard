@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block titulo %}Criterios{% endblock %}
+{% block contenido %}
+<section class="hero">
+  <p class="etiqueta">Cómo funciona</p>
+  <h1>Criterios de evaluación</h1>
+  <p class="sub">Cada señal suma puntos. El total (máximo 100) define el nivel: Bajo (0–24), Medio (25–49), Alto (50–74) y Crítico (75–100).</p>
+</section>
+<section class="tarjeta">
+  <table class="tabla">
+    <thead><tr><th>Señal</th><th>Qué revisa</th><th>Puntos</th></tr></thead>
+    <tbody>
+      <tr><td>Sin HTTPS</td><td>Protocolo http sin cifrado</td><td>10</td></tr>
+      <tr><td>Dirección IP</td><td>El host es una IP y no un dominio</td><td>25</td></tr>
+      <tr><td>Símbolo @</td><td>Uso de @ para ocultar el destino real</td><td>20</td></tr>
+      <tr><td>URL larga</td><td>Más de 75 caracteres (más de 100: 15 puntos)</td><td>8–15</td></tr>
+      <tr><td>Exceso de subdominios</td><td>Tres o más niveles antes del dominio</td><td>15</td></tr>
+      <tr><td>Dominio de alto riesgo</td><td>Extensiones frecuentes en fraudes</td><td>15</td></tr>
+      <tr><td>Punycode</td><td>Dominios xn-- que imitan letras</td><td>20</td></tr>
+      <tr><td>Acortador</td><td>Servicios que esconden el destino</td><td>15</td></tr>
+      <tr><td>Guiones</td><td>Dos o más guiones en el dominio</td><td>10</td></tr>
+      <tr><td>Números</td><td>Tres o más dígitos en el dominio</td><td>5</td></tr>
+      <tr><td>Puerto no estándar</td><td>Puertos distintos de 80 y 443</td><td>10</td></tr>
+      <tr><td>Redirección oculta</td><td>Doble barra // dentro de la ruta</td><td>10</td></tr>
+      <tr><td>Palabras de cebo</td><td>login, clave, verificar, premio… (5 c/u, máx. 20)</td><td>5–20</td></tr>
+      <tr><td>Suplantación de marca</td><td>Distancia de Levenshtein ≤ 2 con una marca conocida</td><td>30</td></tr>
+      <tr><td>Marca fuera de su dominio</td><td>La marca aparece pero el dominio real es otro</td><td>25</td></tr>
+    </tbody>
+  </table>
+</section>
+<section class="tarjeta">
+  <h2>Listas de referencia</h2>
+  <p><strong>Extensiones de alto riesgo:</strong> {% for t in tlds %}<span class="chip estatico">.{{ t }}</span>{% endfor %}</p>
+  <p><strong>Acortadores:</strong> {% for a in acortadores %}<span class="chip estatico">{{ a }}</span>{% endfor %}</p>
+  <p><strong>Marcas vigiladas:</strong> {% for m in marcas %}<span class="chip estatico">{{ m }}</span>{% endfor %}</p>
+</section>
+{% endblock %}

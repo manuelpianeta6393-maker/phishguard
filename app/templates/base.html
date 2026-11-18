@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block titulo %}PhishGuard{% endblock %} · Analizador de phishing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', path='styles.css') }}">
+</head>
+<body>
+  <header class="barra">
+    <a href="/" class="marca"><span class="escudo">◆</span> Phish<strong>Guard</strong></a>
+    <nav>
+      <a href="/">Analizar</a>
+      <a href="/criterios">Criterios</a>
+      <a href="/docs" target="_blank">API</a>
+    </nav>
+  </header>
+  <main class="contenedor">
+    {% block contenido %}{% endblock %}
+  </main>
+  <footer class="pie">
+    <p>PhishGuard · Análisis heurístico de URLs con FastAPI, Jinja2 y pytest</p>
+    <p class="firma">Desarrollado por el Ing. Manuel Pianeta</p>
+  </footer>
+</body>
+</html>

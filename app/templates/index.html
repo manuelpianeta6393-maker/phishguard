@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block contenido %}
+<section class="hero">
+  <p class="etiqueta">Ciberseguridad · Detección de fraude</p>
+  <h1>¿Ese enlace es <span class="acento">seguro</span>?</h1>
+  <p class="sub">Pega una URL que te llegó por correo, SMS o WhatsApp. PhishGuard evalúa 15 señales de phishing y te dice el nivel de riesgo antes de que hagas clic.</p>
+</section>
+
+<section class="tarjeta">
+  <h2>Análisis individual</h2>
+  <form method="post" action="/analizar" class="formulario">
+    <input type="text" name="url" placeholder="https://ejemplo.com/login" value="{{ valor or '' }}" autocomplete="off" aria-label="URL a analizar">
+    <button type="submit">Analizar URL</button>
+  </form>
+  {% if error %}<div class="alerta" role="alert">⚠ {{ error }}</div>{% endif %}
+  <div class="ejemplos">
+    <span>Prueba con:</span>
+    {% for e in ejemplos %}
+    <form method="post" action="/analizar"><input type="hidden" name="url" value="{{ e }}"><button class="chip" type="submit">{{ e }}</button></form>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="tarjeta">
+  <h2>Análisis por lote</h2>
+  <p class="nota">Una URL por línea, máximo {{ max_lote }}. Los resultados se ordenan del más al menos riesgoso.</p>
+  <form method="post" action="/lote" class="formulario columna">
+    <textarea name="urls" rows="5" placeholder="https://www.nequi.com.co&#10;http://nequl-pagos.xyz/premio&#10;bit.ly/oferta">{{ valor_lote or '' }}</textarea>
+    <button type="submit">Analizar lote</button>
+  </form>
+  {% if error_lote %}<div class="alerta" role="alert">⚠ {{ error_lote }}</div>{% endif %}
+</section>
+{% endblock %}

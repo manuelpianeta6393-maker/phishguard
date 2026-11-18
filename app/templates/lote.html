@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block titulo %}Lote{% endblock %}
+{% block contenido %}
+<section class="resumen">
+  <div class="kpi"><span>URLs analizadas</span><strong>{{ resumen.total }}</strong></div>
+  <div class="kpi alto"><span>Riesgo alto o crítico</span><strong>{{ resumen.riesgosas }}</strong></div>
+  <div class="kpi"><span>Puntaje promedio</span><strong>{{ resumen.promedio }}</strong></div>
+  <div class="kpi"><span>Entradas inválidas</span><strong>{{ errores | length }}</strong></div>
+</section>
+
+<section class="tarjeta">
+  <h2>Resultados</h2>
+  {% if resultados %}
+  <table class="tabla">
+    <thead><tr><th>URL</th><th>Puntaje</th><th>Nivel</th><th>Señales</th></tr></thead>
+    <tbody>
+      {% for r in resultados %}
+      <tr>
+        <td class="mono">{{ r.url }}</td>
+        <td><div class="barra-riesgo {{ r.clase }}"><span style="width: {{ r.puntaje }}%"></span></div>{{ r.puntaje }}</td>
+        <td><span class="insignia {{ r.clase }}">{{ r.nivel }}</span></td>
+        <td>{{ r.hallazgos | map(attribute='criterio') | join(', ') or '—' }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="vacio">Ninguna URL válida para analizar.</p>
+  {% endif %}
+</section>
+
+{% if errores %}
+<section class="tarjeta">
+  <h2>Entradas no procesadas</h2>
+  <ul class="errores">
+    {% for e in errores %}<li><span class="mono">{{ e.url }}</span> — {{ e.error }}</li>{% endfor %}
+  </ul>
+</section>
+{% endif %}
+<a href="/" class="boton-secundario">← Volver</a>
+{% endblock %}
