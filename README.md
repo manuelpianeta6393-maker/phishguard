@@ -292,6 +292,8 @@ Las pruebas **nunca llaman a Google de verdad**: `conftest.py` elimina la clave 
 
 ## 7. Evidencias de funcionamiento
 
+> Las capturas se tomaron en un entorno local sin acceso a internet, donde las respuestas de Google Safe Browsing se simularon con las mismas URLs de prueba oficiales de Google (`malware.testing.google.test` y `testsafebrowsing.appspot.com`). La consulta real a Google se verificó en línea: la URL de prueba de malware devuelve **100 – Crítico, enlace REPORTADO**.
+
 ### Interfaz principal
 ![Interfaz principal](evidencias/01_interfaz_principal.png)
 
