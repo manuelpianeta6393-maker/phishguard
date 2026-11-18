@@ -148,3 +148,11 @@ button:hover { transform: translateY(-1px); box-shadow: 0 10px 25px -10px var(--
   .tabla td.mono { max-width: 140px; }
 }
 .tabla td:nth-child(2) { white-space: nowrap; }
+.reputacion { display: flex; gap: .9rem; align-items: flex-start; margin-top: 1.2rem; padding: .9rem 1rem; border-radius: 12px; border: 1px solid var(--borde); background: #0a1020; }
+.reputacion p { color: var(--tenue); font-size: .85rem; }
+.reputacion .punto { width: 12px; height: 12px; border-radius: 50%; margin-top: .4rem; flex-shrink: 0; background: var(--tenue); }
+.reputacion.buena { border-color: rgba(34,197,94,.4); }
+.reputacion.buena .punto { background: var(--bajo); box-shadow: 0 0 12px var(--bajo); }
+.reputacion.mala { border-color: rgba(239,68,68,.6); background: rgba(239,68,68,.08); }
+.reputacion.mala .punto { background: var(--critico); box-shadow: 0 0 12px var(--critico); }
+.reputacion.mala strong { color: #fca5a5; }

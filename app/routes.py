@@ -14,6 +14,7 @@ from app.analizador import (
     analizar_lote,
     analizar_url,
 )
+from app.reputacion import aplicar_reputacion, consultar_safe_browsing
 
 templates = Jinja2Templates(directory=str(Path(__file__).parent / "templates"))
 router = APIRouter()
@@ -46,7 +47,9 @@ def analizar(request: Request, url: str = Form("")):
             {"error": str(e), "valor": url, "ejemplos": EJEMPLOS, "max_lote": MAX_URLS_LOTE},
             status_code=400,
         )
-    return templates.TemplateResponse(request, "resultado.html", {"r": resultado})
+    reputacion = consultar_safe_browsing([resultado.url])
+    aplicar_reputacion(resultado, reputacion.de(resultado.url))
+    return templates.TemplateResponse(request, "resultado.html", {"r": resultado, "reputacion": reputacion})
 
 
 @router.post("/lote", response_class=HTMLResponse)
@@ -60,13 +63,20 @@ def lote(request: Request, urls: str = Form("")):
             {"error_lote": str(e), "valor_lote": urls, "ejemplos": EJEMPLOS, "max_lote": MAX_URLS_LOTE},
             status_code=400,
         )
+    reputacion = consultar_safe_browsing([r.url for r in resultados])
+    for r in resultados:
+        aplicar_reputacion(r, reputacion.de(r.url))
+    resultados.sort(key=lambda r: r.puntaje, reverse=True)
     resumen = {
         "total": len(resultados),
         "riesgosas": sum(1 for r in resultados if r.puntaje >= 50),
         "promedio": round(sum(r.puntaje for r in resultados) / len(resultados)) if resultados else 0,
+        "reportadas": sum(1 for r in resultados if r.reportada),
     }
     return templates.TemplateResponse(
-        request, "lote.html", {"resultados": resultados, "errores": errores, "resumen": resumen}
+        request,
+        "lote.html",
+        {"resultados": resultados, "errores": errores, "resumen": resumen, "reputacion": reputacion},
     )
 
 
@@ -82,9 +92,14 @@ def criterios(request: Request):
 @router.post("/api/analizar")
 def api_analizar(datos: SolicitudApi):
     try:
-        return analizar_url(datos.url).a_dict()
+        resultado = analizar_url(datos.url)
     except UrlInvalidaError as e:
         return JSONResponse(status_code=422, content={"error": str(e)})
+    reputacion = consultar_safe_browsing([resultado.url])
+    aplicar_reputacion(resultado, reputacion.de(resultado.url))
+    respuesta = resultado.a_dict()
+    respuesta["reputacion"] = {"disponible": reputacion.disponible, "mensaje": reputacion.mensaje}
+    return respuesta
 
 
 @router.get("/salud")

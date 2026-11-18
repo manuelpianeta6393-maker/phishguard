@@ -62,6 +62,7 @@ class ResultadoAnalisis:
     clase: str
     recomendacion: str
     hallazgos: list[Hallazgo] = field(default_factory=list)
+    reportada: bool = False
 
     def a_dict(self) -> dict:
         return {
@@ -72,6 +73,7 @@ class ResultadoAnalisis:
             "nivel": self.nivel,
             "recomendacion": self.recomendacion,
             "hallazgos": [h.__dict__ for h in self.hallazgos],
+            "reportada": self.reportada,
         }
 
 

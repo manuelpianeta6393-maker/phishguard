@@ -5,11 +5,13 @@
   <div class="kpi"><span>URLs analizadas</span><strong>{{ resumen.total }}</strong></div>
   <div class="kpi alto"><span>Riesgo alto o crítico</span><strong>{{ resumen.riesgosas }}</strong></div>
   <div class="kpi"><span>Puntaje promedio</span><strong>{{ resumen.promedio }}</strong></div>
+  <div class="kpi alto"><span>Reportadas por Google</span><strong>{{ resumen.reportadas }}</strong></div>
   <div class="kpi"><span>Entradas inválidas</span><strong>{{ errores | length }}</strong></div>
 </section>
 
 <section class="tarjeta">
   <h2>Resultados</h2>
+  <p class="nota">{{ reputacion.mensaje }}</p>
   {% if resultados %}
   <table class="tabla">
     <thead><tr><th>URL</th><th>Puntaje</th><th>Nivel</th><th>Señales</th></tr></thead>

@@ -17,6 +17,15 @@
     <div><dt>Host</dt><dd class="mono">{{ r.dominio }}</dd></div>
     <div><dt>Dominio registrado</dt><dd class="mono">{{ r.dominio_registrado }}</dd></div>
   </dl>
+  <div class="reputacion {% if r.reportada %}mala{% elif reputacion.disponible %}buena{% else %}neutra{% endif %}">
+    <span class="punto"></span>
+    <div>
+      <strong>Google Safe Browsing:
+        {% if r.reportada %}enlace REPORTADO como peligroso{% elif reputacion.disponible %}sin reportes{% else %}no consultado{% endif %}
+      </strong>
+      <p>{{ reputacion.mensaje }}</p>
+    </div>
+  </div>
 </section>
 
 <section class="tarjeta">
